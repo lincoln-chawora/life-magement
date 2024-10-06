@@ -1,14 +1,30 @@
-export default function BookTeaser({book, children, onSelectMovie}) {
+import React from "react";
+import { Volume } from "../modals/book.modal";
+import { useBookDispatch } from "../store/BookStore";
+import { selectBook } from "../slices/bookSlice";
+import emptyImage from '../assets/empty-image.svg';
+
+interface BookTeaserProps {
+    book: Volume
+}
+const BookTeaser: React.FC<BookTeaserProps> = ({book}) => {
+    const dispatch = useBookDispatch();
+
     const {
         title,
-        imageLinks: {thumbnail},
-    } = book;
+        imageLinks = {thumbnail: emptyImage},
+    } = book.volumeInfo;
+
+    function handleClick() {
+        dispatch(selectBook(book));
+    }
 
     return (
-        <li onClick={() => onSelectMovie(title)}>
-            <img src={thumbnail} alt={`${title} poster`} />
+        <li onClick={() => handleClick()}>
+            <img src={imageLinks.thumbnail} alt={`${title} cover`} />
             <h3>{title}</h3>
-            {children}
         </li>
     )
 }
+
+export default BookTeaser;
