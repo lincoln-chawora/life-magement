@@ -12,3 +12,7 @@ export function getFormValues(array: HTMLFormElement): { [key: string]: string }
 
     return formValues;
 }
+
+export function isNumeric(value: string) {
+    return /^\d+$/.test(value);
+}
